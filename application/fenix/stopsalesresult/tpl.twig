@@ -1,0 +1,46 @@
+{% spaceless %}
+<table class="tablesorter bigger">
+	<thead>
+		<tr>
+			<th>Place</th>
+			<th>Hotel</th>
+			<th>Date Beg</th>
+			<th>Date End</th>
+			<th>Nights</th>
+			<th>Room</th>
+			<th>Accommodation</th>
+			<th>Meal</th>
+			<th>Created</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for item in data %}
+			<tr>
+				<td>{{ item.getPlaceSecond() }}</td>
+				<td>{{ item.hotel }}</td>
+				<td>{{ item.from.format('d.m.Y') }}</td>
+				<td>{{ item.to.format('d.m.Y') }}</td>
+				<td></td>
+				<td>{{ item.rname }}</td>
+				<td>All</td>
+				<td>All</td>
+				<td>{{ item.created.format('d.m.Y H:i:s') }}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endspaceless %}
+<script>
+	$(".tablesorter").tablesorter({
+		headers: {
+			4: {sorter: false},
+			6: {sorter: false},
+			7: {sorter: false}
+		},
+        theme: 'blue',
+        widgets: ['zebra', 'stickyHeaders'],
+		usNumberFormat: false,
+		sortReset: true,
+		sortRestart: true
+	});
+</script>

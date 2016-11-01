@@ -1,0 +1,46 @@
+<h1>Fenix Stop Sales</h1>
+
+<script>
+	// for local use when the WebRoot is not in /
+	if (location.host === 'localhost') {
+		fenix.setUrlPrefix('/fenix/fenix/web');
+	}
+	
+	$(function() {
+		fenix.loadDatepicker("dt");
+		fenix.initDp('from', 'to');
+	});
+</script>
+
+{% spaceless %}
+	
+<form class="print lt" id="f2" action="" method="post">
+	Hotel:
+	<select id="hotel" class="r10" name="hotel" onChange="fenix.onChangeSs(this, '');">
+		<option value="0">All</option>
+		{% for h in hs %}
+			<option value="{{ h.id }}">{{ h.name }}</option>
+		{% endfor %}
+	</select>
+	
+	<span class="r20"></span>Created from:
+	<input class="dt" type="text" id="from" name="from" value="" required="required" onChange="fenix.onChangeSs(this, '');">
+	
+	<span class="r20"></span>Created to:
+	<input class="dt" type="text" id="to" name="to" value="" required="required" onChange="fenix.onChangeSs(this, '');">
+	
+	<span class="r20"></span>
+	<button class="r20" type="button" id="btnss" onclick="fenix.onFormSubmit(this.form, '/fenix/stopsalesresult');">Show</button>
+</form>
+	
+<div id="excelbtn" class="noshow lt" style="margin-top: -5px;">
+	<a href="{{ rootpath }}/fenix/stopsalesexcel" title="Export to Excel"><img src="{{ rootpath }}/images/excel.png" alt=""></a>
+</div>
+	
+<div class="clear"></div>
+
+{% endspaceless %}
+
+<div id="loader"></div>
+
+<div id="content"></div>

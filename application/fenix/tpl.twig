@@ -1,0 +1,69 @@
+<h1>Fenix Hotels’ Prices Request</h1>
+
+<script>
+	// for local use when the WebRoot is not in /
+	if (location.host === 'localhost') {
+		fenix.setUrlPrefix('/fenix/fenix/web');
+	}
+</script>
+
+{% spaceless %}
+<form class="print" id="f1" action="" method="post">
+	Country:
+	<select id="country" class="r10" name="main[country]">
+		<option value="1">Greece</option>
+{#		{% for item in countries %}
+			<option value="{{ item.id }}">{{ item.name }}</option>
+		{% endfor %}
+#}	
+	</select>
+	
+	Region/Area:
+	<select id="region" class="r10" name="main[region]" onChange="fenix.onChange(this, '/fenix/gettowns');">
+		<option value="0">All Regions</option>
+		{% for item in regions %}
+			<option value="{{ item.id }}">{{ item.name }}</option>
+		{% endfor %}
+	</select>
+	
+	Town:
+	<select id="town" class="r10" name="main[town]" onChange="fenix.onChange(this, '/fenix/gethotels');">
+		<option value="0">Select Town…</option>
+		{% for item in towns %}
+			<option value="{{ item.id }}">{{ item.name }}</option>
+		{% endfor %}
+	</select>
+	
+	Hotel:
+	<select id="hotel" class="r10" name="main[hotel]" disabled="disabled" onChange="fenix.onChange(this, '/fenix/getcontracts');">
+		<option value="0">Hotels</option>
+	</select>
+	
+	Contract:
+	<select id="contract" class="r10" name="main[contract]" disabled="disabled" onChange="fenix.onChange(this, '/fenix/getprices');">
+		<option value="0">Contracts</option>
+	</select>
+
+	<div class="top20">
+		<div class="lt r20">
+			Offer:
+			<select id="offer" class="r20" name="main[offer]" disabled="disabled" onChange="fenix.onChange(this, '');">
+				<option value="0">Offers</option>
+			</select>
+			
+			<button id="button" type="button" disabled="disabled" onClick="fenix.onCreate('/fenix/createresult');">Display</button>
+		</div>
+
+		<div id="excelbtn" class="noshow lt" style="margin-top: -5px;">
+			<a href="{{ rootpath }}/fenix/excelresult" title="Export to Excel"><img src="{{ rootpath }}/images/excel.png" alt=""></a>
+		</div>
+	</div>
+</form>
+
+<div class="clear"></div>
+
+{% endspaceless %}
+
+<div id="loader"></div>
+
+<div id="content"></div>

@@ -1,0 +1,129 @@
+{% spaceless %}
+<h2>{{ vm.hotelname }}</h2>	
+	
+<div class="bigger">
+	{% if vm.getOfferVal() != '-1' %}
+		<div class="lt r10 journal_green p5">
+			{% if vm.getOffer().title != '' %}
+				Offer Title: <b>{{ vm.getOffer().title }}</b><br>
+			{% endif %}
+			{% if vm.getOffer().desc != '' %}
+				Offer Description: <b>{{ vm.getOffer().desc }}</b><br>
+			{% endif %}
+			{% if vm.getOffer().dadult > 0 %}
+				Adult Discount: <b>{{ vm.getOffer().dadult ~ vm.getOffer().dtype }}</b><br>
+			{% endif %}
+			{% if vm.getOffer().vfrom is not empty %}
+				Valid: <b>{{ vm.getOffer().vfrom.format('d.m.Y') }}—{{ vm.getOffer().vto.format('d.m.Y') }}</b><br>
+			{% endif %}
+			{% if vm.getOffer().bfrom is not empty %}
+				Booking: <b>{{ vm.getOffer().bfrom.format('d.m.Y') }}—{{ vm.getOffer().bto.format('d.m.Y') }}</b><br>
+			{% endif %}
+			{% if vm.getOffer().cinfrom is not empty %}
+				Check in: <b>{{ vm.getOffer().cinfrom.format('d.m.Y') }}—{{ vm.getOffer().cinto.format('d.m.Y') }}</b><br>
+			{% endif %}
+			{% if vm.getOffer().coutfrom is not empty %}
+				Check out: <b>{{ vm.getOffer().coutfrom.format('d.m.Y') }}—{{ vm.getOffer().coutto.format('d.m.Y') }}</b><br>
+			{% endif %}
+			{% if vm.getOffer().daysbeforemt is not empty %}
+				Days Before Arrival >: <b>{{ vm.getOffer().daysbeforemt }}</b><br>
+			{% endif %}
+			{% if vm.getOffer().daysbeforelt is not empty %}
+				Days Before Arrival <: <b>{{ vm.getOffer().daysbeforelt }}</b><br>
+			{% endif %}
+			{% if vm.getOffer().minstay is not empty %}
+				Minimum Stay: <b>{{ vm.getOffer().minstay }}</b><br>
+			{% endif %}
+			{% if vm.getOffer().maxstay is not empty %}
+				Maximum Stay: <b>{{ vm.getOffer().maxstay }}</b>
+			{% endif %}		
+		</div>
+		
+		{% for id in vm.getOffer().cwith %}
+			<div class="lt r10">
+				{% if vm.getOfferById(id).title != '' %}
+					Offer Title: <b>{{ vm.getOfferById(id).title }}</b><br>
+				{% endif %}
+				{% if vm.getOfferById(id).desc != '' %}
+					Offer Description: <b>{{ vm.getOfferById(id).desc }}</b><br>
+				{% endif %}
+				{% if vm.getOfferById(id).dadult > 0 %}
+					Adult Discount: <b>{{ vm.getOfferById(id).dadult ~ vm.getOfferById(id).dtype }}</b><br>
+				{% endif %}
+				{% if vm.getOfferById(id).vfrom is not empty %}
+					Valid: <b>{{ vm.getOfferById(id).vfrom.format('d.m.Y') }}—{{ vm.getOfferById(id).vto.format('d.m.Y') }}</b><br>
+				{% endif %}
+				{% if vm.getOfferById(id).bfrom is not empty %}
+					Booking: <b>{{ vm.getOfferById(id).bfrom.format('d.m.Y') }}—{{ vm.getOfferById(id).bto.format('d.m.Y') }}</b><br>
+				{% endif %}
+				{% if vm.getOfferById(id).cinfrom is not empty %}
+					Check in: <b>{{ vm.getOfferById(id).cinfrom.format('d.m.Y') }}—{{ vm.getOfferById(id).cinto.format('d.m.Y') }}</b><br>
+				{% endif %}
+				{% if vm.getOfferById(id).coutfrom is not empty %}
+					Check out: <b>{{ vm.getOfferById(id).coutfrom.format('d.m.Y') }}—{{ vm.getOfferById(id).coutto.format('d.m.Y') }}</b><br>
+				{% endif %}
+				{% if vm.getOfferById(id).daysbeforemt is not empty %}
+					Days Before Arrival >: <b>{{ vm.getOfferById(id).daysbeforemt }}</b><br>
+				{% endif %}
+				{% if vm.getOfferById(id).daysbeforelt is not empty %}
+					Days Before Arrival <: <b>{{ vm.getOfferById(id).daysbeforelt }}</b><br>
+				{% endif %}
+				{% if vm.getOfferById(id).minstay is not empty %}
+					Minimum Stay: <b>{{ vm.getOfferById(id).minstay }}</b><br>
+				{% endif %}
+				{% if vm.getOfferById(id).maxstay is not empty %}
+					Maximum Stay: <b>{{ vm.getOfferById(id).maxstay }}</b>
+				{% endif %}		
+			</div>
+		{% endfor %}
+
+	{% endif %}
+</div>
+
+<div class="clear"></div>
+
+<table class="tablesorter bigger">
+	<thead>
+		<tr>
+			<th>From</th>
+			<th>Till</th>
+			<th>Room Type</th>
+			<th>Meal</th>
+			<th>Nights</th>
+			{% for a, tr in vm.getUniqueAccs() %}
+				<th>{{ tr }}</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+		{% for r in data %}
+			<tr>
+				<td>{{ r.from.format('d.m.Y') }}</td>
+				<td>{{ r.to.format('d.m.Y') }}</td>
+				<td>{{ r.room.name }}</td>
+				<td>{{ r.board }}</td>
+				<td class="right">{{ r.nights }}</td>
+				{% for a, tr in vm.getUniqueAccs() %}
+					<td class="right">
+						{% if r.getAccByKey(a).price > 0 %}
+							{{ r.getAccByKey(a).price|number_format(2, ',', '') }}
+						{% endif %}
+					</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endspaceless %}
+<script>
+	$(".tablesorter").tablesorter({
+		headers: {
+			4: {sorter: false}
+		},
+        theme: 'blue',
+        widgets: ['zebra', 'stickyHeaders'],
+		usNumberFormat: false,
+		sortReset: true,
+		sortRestart: true
+	});
+</script>
